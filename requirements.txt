@@ -9,6 +9,9 @@ trimesh>=4.0.0
 open3d>=0.17.0
 plyfile>=1.0.0
 
+# Text-to-3D (CLIP conditioning)
+transformers>=4.30.0
+
 # Shap-E (OpenAI's 3D generative model)
 shap-e @ git+https://github.com/openai/shap-e.git
 
