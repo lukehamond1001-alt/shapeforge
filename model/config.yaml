@@ -1,0 +1,40 @@
+# ShapeForge Training Configuration
+
+model:
+  name: "shapeforge-v1"
+  base: "openai/shap-e"  # Base model to fine-tune
+  
+data:
+  train_dir: "data/processed"
+  num_points: 4096
+  augmentation:
+    random_rotation: true
+    random_scale: [0.9, 1.1]
+    random_jitter: 0.01
+
+training:
+  epochs: 50
+  batch_size: 8
+  learning_rate: 1.0e-4
+  weight_decay: 0.01
+  warmup_steps: 100
+  gradient_accumulation: 2
+  
+  # Checkpointing
+  save_every: 10  # epochs
+  checkpoint_dir: "checkpoints"
+  
+  # Early stopping
+  patience: 10
+  min_delta: 0.001
+
+hardware:
+  # Automatically detected, but can be overridden
+  device: "auto"  # cuda, mps, or cpu
+  mixed_precision: true  # Use fp16 where supported
+  num_workers: 4
+
+logging:
+  log_every: 100  # steps
+  use_wandb: false
+  project_name: "shapeforge"
