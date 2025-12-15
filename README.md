@@ -7,11 +7,11 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c?logo=pytorch)](https://pytorch.org/)
-[![Shap-E](https://img.shields.io/badge/OpenAI-Shap--E-412991)](https://github.com/openai/shap-e)
+[![CLIP](https://img.shields.io/badge/OpenAI-CLIP-412991)](https://github.com/openai/CLIP)
 
-**Train your own 3D generative model on ShapeNet**
+**Text-to-3D chair generation using CLIP conditioning**
 
-[Quick Start](#-quick-start) • [Training](#-training) • [Inference](#-inference) • [Results](#-results)
+[Quick Start](#-quick-start) • [Text-to-3D](#-text-to-3d-generation) • [Training](#-training) • [Results](#-results)
 
 </div>
 
@@ -19,25 +19,31 @@
 
 ## ✨ What is ShapeForge?
 
-ShapeForge is a 3D generative model fine-tuned on the **ShapeNet chairs dataset**. It demonstrates:
+ShapeForge is a **text-to-3D generative model** that creates chair PLY files from natural language descriptions:
 
-- 🎓 **End-to-end ML pipeline** — Data preprocessing → Training → Inference
-- 🪑 **Domain-specific generation** — Specializes in generating chair 3D models  
-- ⚡ **Cloud-ready training** — Optimized for RunPod/Lambda GPUs
-- 🔄 **Comparison with Imagen Apex** — Side-by-side with text-to-3D pipeline
+```bash
+python inference/generate_from_text.py --prompt "modern wooden chair"
+# → outputs/chair_modern_wooden_chair.ply
+```
+
+**Key Features:**
+- 🔤 **Text-to-3D** — Generate chairs from text prompts using CLIP embeddings
+- 🎓 **End-to-end ML pipeline** — Data preprocessing → Training → Inference  
+- ⚡ **Cloud-ready** — Optimized for RunPod/Lambda GPUs (~$1-2 to train)
+- 📦 **PLY output** — View in MeshLab, Blender, or any 3D viewer
 
 ## 🏗️ Architecture
 
 ```
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│   ShapeNet      │ ──▶ │  Point Cloud    │ ──▶ │   Shap-E        │
-│   Chairs (OBJ)  │     │  Preprocessing  │     │   Fine-tuning   │
+│   Text Prompt   │ ──▶ │  CLIP Encoder   │ ──▶ │  Text Embedding │
+│ "wooden chair"  │     │  (frozen)       │     │                 │
 └─────────────────┘     └─────────────────┘     └────────┬────────┘
                                                          │
                                                          ▼
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│   Novel Chair   │ ◀── │   3D Decoder    │ ◀── │  Trained Model  │
-│   (PLY/OBJ)     │     │                 │     │                 │
+│   PLY Output    │ ◀── │  Point Cloud    │ ◀── │  MLP Decoder    │
+│   (3D Chair)    │     │  (4096 points)  │     │  (conditioned)  │
 └─────────────────┘     └─────────────────┘     └─────────────────┘
 ```
 
