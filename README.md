@@ -11,7 +11,7 @@
 
 **Text-to-3D chair generation using CLIP conditioning**
 
-[Quick Start](#-quick-start) • [Text-to-3D](#-text-to-3d-generation) • [Training](#-training) • [Results](#-results)
+[Demo Video](https://youtu.be/deAFFIqPKkI) • [Quick Start](#-quick-start) • [Text-to-3D](#-text-to-3d-generation) • [Training](#-training) • [Results](#-results)
 
 </div>
 
