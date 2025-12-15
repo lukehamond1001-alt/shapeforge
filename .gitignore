@@ -53,9 +53,9 @@ checkpoints/
 *.ckpt
 *.safetensors
 
-# Generated outputs
-outputs/
-*.ply
+# Generated outputs (keeping obj/glb ignored, but allowing ply samples)
+# outputs/  # Uncomment to ignore outputs
+# *.ply     # Uncomment to ignore PLY files
 *.obj
 *.glb
 
